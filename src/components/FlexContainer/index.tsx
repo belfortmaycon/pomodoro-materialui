@@ -1,16 +1,27 @@
-// import { node, number } from 'prop-types';
 import React from 'react';
-import { IFlexContainerProps, IFlexContainerStyles } from './flexContainer.interface';
-import { flexContainerClass } from './flexContainer.styled';
 
-const FlexContainer: React.FC<IFlexContainerProps> = (props) => {
-  const { padding, children } = props;
-  const styledProps: IFlexContainerStyles = { padding: padding ?? 1 };
+import { any, node, number } from 'prop-types';
+
+import { IFlexContainerProps, IFlexContainerStyles } from './interfaces';
+import { flexContainerClass } from './styles';
+
+const FlexContainer: React.FC<IFlexContainerProps> = ({ padding, children }) => {
+  const styledProps: IFlexContainerStyles = { padding: padding ?? 0 };
   const classes = flexContainerClass(styledProps);
 
   return (
     <div className={classes.root}>{children}</div>
   );
+};
+
+FlexContainer.propTypes = {
+  padding: number,
+  children: node,
+};
+
+FlexContainer.defaultProps = {
+  padding: 0,
+  children: any,
 };
 
 export default FlexContainer;

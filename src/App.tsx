@@ -1,8 +1,10 @@
 import React from 'react';
+
 import {
   AppBar, Grid, IconButton, ThemeProvider, Toolbar, Typography,
 } from '@material-ui/core';
 import { AccessAlarm, Settings } from '@material-ui/icons';
+
 import FlexContainer from './components/FlexContainer';
 import PomodoroTimer from './components/PomodoroTimer';
 import GlobalStyles from './styles/GlobalStyles';

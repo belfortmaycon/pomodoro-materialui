@@ -1,5 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { IFlexContainerStyles } from './flexContainer.interface';
+
+import { IFlexContainerStyles } from './interfaces';
 
 export const flexContainerClass = makeStyles<Theme, IFlexContainerStyles>((theme: Theme) => ({
   root: (props) => ({
