@@ -1,6 +1,24 @@
-# Configurações adicionais
-## para o git
+# Inicialização
 
+## Instalação de Dependências
+
+Para iniciar com o projeto após download/clone execute o seguinte comando para inicializá-lo
+>Utilizadores do Yarn
+```sh
+yarn
+```
+>Utilizadores do NPM
+```sh
+npm -i
+```
+Esse comando irá fazer a instalação das dependências apontadas no arquivo `package.json`
+
+# Informações de Configurações adicionais
+## para o `git`
+
+Configurações relacionadas à utilização do git no projeto
+
+### `lint-staged`
 Configurar o projeto para fazer validações ou testes e rodar o eslint para correção de padronização do código
 
 ```[JSON]
@@ -15,6 +33,7 @@ Configurar o projeto para fazer validações ou testes e rodar o eslint para cor
 ```
 
 Para configurar e executar os testes automatizados:
+
 ```[JSON]
 "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -31,11 +50,58 @@ O parâmetro **--bail** faz com que os testes sejam interrompidos quando encontr
 
 O parâmetro **--findRelatedTests** permite executar somente os testes relacionados aos arquivos alterados no commit e que foram adicionados no stage do commit.
 
-Fonte:
+**Fonte:**
 > https://youtu.be/-c57D2kQffQ
-## para o eslint
 
-# eslint import-helper
+### `commitlint`
+O `commitlint` verifica se a sua mensagem de commit atende à convensão de formatação do commit. ([conventional commit format](https://conventionalcommits.org)).
+
+Comumente, os padrões seguem as seguintes definições:
+
+```sh
+type(scope?): subject  #scope is optional; multiple scopes are supported (current delimiter options: "/", "\" and ",")
+```
+
+No dia a dia os exemplos podem ser:
+
+```
+chore: run tests on travis ci
+```
+
+```
+fix(server): send cors headers
+```
+
+```
+feat(blog): add comment section
+```
+
+Tipos comuns de acordo com [commitlint-config-conventional (based on the the Angular convention)](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional#type-enum) podem ser:
+
+- build
+- ci
+- chore
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test
+
+**Fonte:**
+> https://youtu.be/erInHkjxkL8
+
+### Extensão recomenda para o `VS Code`
+
+Para auxiliar nessa formatação foi utilizado o plugin para o VSCode [Conventional Commits](https://marketplace.visualstudio.com/items?itemName=vivaxy.vscode-conventional-commits) que guia na construção da mensagem de commit.
+
+<img src="https://github.com/vivaxy/vscode-conventional-commits/blob/master/assets/docs/demo.gif" />
+
+## para o `eslint`
+
+### `eslint import-helper`
 
 O Import Helper auxilia na padronização dos imports da aplicação.
 
@@ -61,10 +127,7 @@ newlinesBetween: 'always',  # sempre saltar uma linha para cada grupo
 
 Configurações se encontram no arquivo `.eslintrc.js`
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+# Aditional Informations
 ## Available Scripts
 
 In the project directory, you can run:
@@ -91,19 +154,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
