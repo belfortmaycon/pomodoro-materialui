@@ -21,7 +21,12 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'import', 'jsx-a11y'],
+  plugins: [
+    'react',
+    'import',
+    'jsx-a11y',
+    'eslint-plugin-import-helpers',
+  ],
   rules: {
     'react/jsx-filename-extension': [
       'error',
@@ -49,6 +54,20 @@ module.exports = {
       'error',
       {
         patterns: ['@material-ui/*/*/*', '!@material-ui/core/test-utils/*'],
+      },
+    ],
+    'import-helpers/order-imports': [
+      'warn',
+      { // example configuration
+        newlinesBetween: 'always',
+        groups: [
+          '/^react/',
+          'module',
+          '/^@shared/',
+          '/^~/',
+          ['parent', 'sibling', 'index'],
+        ],
+        alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
 

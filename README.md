@@ -1,3 +1,66 @@
+# Configurações adicionais
+## para o git
+
+Configurar o projeto para fazer validações ou testes e rodar o eslint para correção de padronização do código
+
+```[JSON]
+"husky": {
+    "hooks":{
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged":{
+    "*.{js,jsx,ts,tsx}":["eslint --fix", "git add"]
+  },
+```
+
+Para configurar e executar os testes automatizados:
+```[JSON]
+"lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      **"cross-env CI=true yarn test --bail --findRelatedTests",**
+      "git add"
+    ]
+  },
+```
+
+O item **cross-env** refere-se a uma dependência de desenvolvimento que permite rodar comandos em multiplataformas (Windows/Unix) sem precisar de configurar as especificidades de cada SO.
+
+O parâmetro **--bail** faz com que os testes sejam interrompidos quando encontrar o primeiro erro.
+
+O parâmetro **--findRelatedTests** permite executar somente os testes relacionados aos arquivos alterados no commit e que foram adicionados no stage do commit.
+
+Fonte:
+> https://youtu.be/-c57D2kQffQ
+## para o eslint
+
+# eslint import-helper
+
+O Import Helper auxilia na padronização dos imports da aplicação.
+
+Por padrão foram consideradas as seguintes regras:
+```[JSON]
+newlinesBetween: 'always',  # sempre saltar uma linha para cada grupo
+  groups: [
+    '/^react/',     # sempre importa os modulos do react primeiro
+    'module',       # importa demais modulos utilizados
+    '/^@shared/',   # importa libs que começam com @
+    '/^~/',         # importa os arquivos dentro da pasta src (ver #babel-import)
+
+    # ordem de importação dos arquivos locais src
+    # 1 - import dos arquivos de pasta pai
+    # 2 - import de arquivos visinhos da mesma pasta
+    # 3 - import dos arquivos index
+    ['parent', 'sibling', 'index'],
+  ],
+
+  # Ordenação alfabética e ignorar o Case sensitive
+  alphabetize: { order: 'asc', ignoreCase: true }
+```
+
+Configurações se encontram no arquivo `.eslintrc.js`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
