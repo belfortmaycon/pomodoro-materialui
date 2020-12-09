@@ -2,6 +2,12 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 // Create a light Theme
 export const lightTheme = createMuiTheme({
+  props: {
+    MuiButton: {
+      variant: 'contained',
+      color: 'primary',
+    },
+  },
   palette: {
     primary: {
       main: '#361466',
