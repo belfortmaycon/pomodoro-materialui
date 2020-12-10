@@ -37,6 +37,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
+    // permit that an interface can be {}
+    '@typescript-eslint/no-empty-interface': 'off',
     // note you must disable the base rule as it can report incorrect errors
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
