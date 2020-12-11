@@ -23,7 +23,6 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   const [cyclesQtdManager, setCyclesQtdManager] = useState(
     new Array(cycles - 1).fill(true),
   );
-  // Candidates to be global -> Redux
   const [completedCycles, setCompletedCycles] = useState(0);
   const [fullWorkingTime, setFullWorkingTime] = useState(0);
   const [numberOfPomodoros, setNumberOfPomodoros] = useState(0);
@@ -78,6 +77,9 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   );
 
   useEffect(() => {
+    if (working) document.body.classList.add('working');
+    if (resting) document.body.classList.remove('working');
+
     if (mainTime > 0) return;
 
     if (working && cyclesQtdManager.length > 0) {
