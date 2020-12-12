@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Button, Card, CardActions, CardContent, CardHeader, Grid,
 } from '@material-ui/core';
-import { Pause, PlayArrow } from '@material-ui/icons';
-import { useInterval } from 'hooks/use-interval';
-import { secondsToTime } from 'utils/seconds-to-time';
+import {
+  Pause, PlayArrow, Save, Stop,
+} from '@material-ui/icons';
 
+import { useInterval } from '../../hooks/use-interval';
+import { StoreState } from '../../store/createStore';
+import { secondsToTime } from '../../utils/seconds-to-time';
 import FlexContainer from '../FlexContainer';
 import { Timer } from '../Timer';
 import { IPomodoroTimerProps, IPomodoroTimerStyles } from './interfaces';
@@ -16,6 +20,12 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   const {
     pomodoroTime, shortRestTime, longRestTime, cycles,
   } = props;
+  // Redux
+  const {
+    totalCycles,
+    totalOfPomodoros,
+    totalWorkingTime,
+  } = useSelector((state:StoreState) => state.pomodoro);
   const [mainTime, setMainTime] = useState(pomodoroTime);
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
@@ -23,6 +33,7 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   const [cyclesQtdManager, setCyclesQtdManager] = useState(
     new Array(cycles - 1).fill(true),
   );
+  const [stopped, setStopped] = useState(false);
   // Candidates to be global -> Redux
   const [completedCycles, setCompletedCycles] = useState(0);
   const [fullWorkingTime, setFullWorkingTime] = useState(0);
@@ -39,21 +50,18 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
     timeCounting ? 1000 : null,
   );
 
-  const configureWork = useCallback(() => {
+  const startWork = useCallback(() => {
     setTimeCounting(true);
     setWorking(true);
     setResting(false);
     setMainTime(pomodoroTime);
+    setStopped(false);
     // audioStartWorking.play();
   }, [
-    setTimeCounting,
-    setWorking,
-    setResting,
-    setMainTime,
     pomodoroTime,
   ]);
 
-  const configureRest = useCallback(
+  const startRest = useCallback(
     (long: boolean) => {
       setTimeCounting(true);
       setWorking(false);
@@ -68,40 +76,55 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
       // audioStopWorking.play();
     },
     [
-      setTimeCounting,
-      setWorking,
-      setResting,
-      setMainTime,
       longRestTime,
       shortRestTime,
     ],
   );
+  /* If we use the Callback function here, it will be called
+     every time one of the states change.
+  */
+  // const canSave = useCallback(() => {
+  //   // https://pt.stackoverflow.com/questions/29014/qual-o-sentido-de-usar-dupla-nega%C3%A7%C3%A3o-em-javascript
+  //   const can = !!(((!working && !resting && !timeCounting)
+  //   && (fullWorkingTime > 0)));
+
+  //   console.log('Can Save Pomodoro?', can);
+
+  //   return can;
+  // }, [fullWorkingTime, resting, timeCounting, working]);
+
+  const stopWorkingAndRestart = useCallback(() => {
+    if (!stopped) setStopped(stopped);
+
+    setTimeCounting(false);
+    setWorking(false);
+    setResting(false);
+    setMainTime(pomodoroTime);
+  }, [stopped, pomodoroTime]);
 
   useEffect(() => {
     if (mainTime > 0) return;
 
     if (working && cyclesQtdManager.length > 0) {
-      configureRest(false);
+      startRest(false);
       cyclesQtdManager.pop();
     } else if (working && cyclesQtdManager.length <= 0) {
-      configureRest(true);
+      startRest(true);
       setCyclesQtdManager(new Array(cycles - 1).fill(true));
       setCompletedCycles(completedCycles + 1);
     }
 
     if (working) setNumberOfPomodoros(numberOfPomodoros + 1);
-    if (resting) configureWork();
-  }, [
-    working,
-    resting,
-    mainTime,
-    cyclesQtdManager,
-    numberOfPomodoros,
-    completedCycles,
-    configureRest,
-    setCyclesQtdManager,
-    configureWork,
+    if (resting) startWork();
+  }, [completedCycles,
     cycles,
+    cyclesQtdManager,
+    mainTime,
+    numberOfPomodoros,
+    resting,
+    startRest,
+    startWork,
+    working,
   ]);
 
   return (
@@ -143,8 +166,8 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
           </Grid>
         </CardContent>
         <CardActions className={classes.buttons}>
-          <Button variant="contained" onClick={configureWork}>Work</Button>
-          <Button variant="contained" onClick={() => configureRest(false)}>Rest</Button>
+          <Button variant="contained" onClick={startWork}>Work</Button>
+          <Button variant="contained" onClick={() => startRest(false)}>Rest</Button>
           <Button
             variant="contained"
             disabled={!working && !resting}
@@ -153,6 +176,19 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
             {
               timeCounting ? <Pause /> : <PlayArrow />
             }
+          </Button>
+          <Button
+            onClick={stopWorkingAndRestart}
+          >
+            <Stop />
+          </Button>
+          <Button
+            startIcon={
+              <Save />
+            }
+            disabled={!stopped}
+          >
+            Save
           </Button>
         </CardActions>
       </Card>
