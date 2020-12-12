@@ -1,23 +1,19 @@
-import { IPomodoroState } from './types';
+import { IPomodoroState, PomodoroAction } from './types';
 
-const INITIAL_STATE = {
-  pomodoroSummary: {
-    totalCycles: 0,
-    totalWorkingTime: 0,
-    totalOfPomodoros: 0,
-  },
+const INITIAL_STATE:IPomodoroState = {
+  totalCycles: 0,
+  totalOfPomodoros: 0,
+  totalWorkingTime: 0,
 };
 
-export function pomodoro(state = INITIAL_STATE, action: any): IPomodoroState {
+export default function pomodoro(state = INITIAL_STATE, action: PomodoroAction): IPomodoroState {
   switch (action.type) {
     case '@pomodoro/SAVE_POMODORO_SUMMARY':
       return {
         ...state,
-        pomodoroSummary: {
-          totalCycles: 0,
-          totalWorkingTime: 0,
-          totalOfPomodoros: 0,
-        },
+        totalCycles: action.payload.totalCycles,
+        totalOfPomodoros: action.payload.totalOfPomodoros,
+        totalWorkingTime: action.payload.totalWorkingTime,
       };
     default:
       return state;

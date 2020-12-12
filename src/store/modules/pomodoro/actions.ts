@@ -1,3 +1,5 @@
+import { action } from 'typesafe-actions';
+
 type TPomodoroSummary = {
   totalCycles: number,
   totalWorkingTime: number,
@@ -8,12 +10,18 @@ export function savePomodoroSummary({
   totalWorkingTime,
   totalOfPomodoros,
 } : TPomodoroSummary): {type: string, payload: TPomodoroSummary} {
-  return {
-    type: '@pomodoro/SAVE_POMODORO_SUMMARY',
-    payload: {
-      totalCycles,
-      totalWorkingTime,
-      totalOfPomodoros,
-    },
-  };
+  return action('@pomodoro/SAVE_POMODORO_SUMMARY', {
+    totalCycles,
+    totalWorkingTime,
+    totalOfPomodoros,
+  });
 }
+
+// return {
+//   type: '@pomodoro/SAVE_POMODORO_SUMMARY',
+//   payload: {
+//     totalCycles,
+//     totalWorkingTime,
+//     totalOfPomodoros,
+//   },
+// };
