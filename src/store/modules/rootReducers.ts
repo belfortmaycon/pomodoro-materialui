@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { StoreState } from 'store/createStore';
 
 import pomodoro from './pomodoro/reducer';
 /**
@@ -6,7 +7,7 @@ import pomodoro from './pomodoro/reducer';
  * you import then here and pass for the combineReducers function
 */
 
-export default combineReducers({
+export default combineReducers<StoreState>({
   // Passing only pomodoro is the same of pomodoro: pomodoro
   pomodoro,
 });

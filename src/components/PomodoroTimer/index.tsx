@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Button, Card, CardActions, CardContent, CardHeader, Grid,
@@ -7,6 +7,7 @@ import {
 import {
   Pause, PlayArrow, Save, Stop,
 } from '@material-ui/icons';
+import { savePomodoroSummary } from 'store/modules/pomodoro/actions';
 
 import { useInterval } from '../../hooks/use-interval';
 import { StoreState } from '../../store/createStore';
@@ -26,6 +27,9 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
     totalOfPomodoros,
     totalWorkingTime,
   } = useSelector((state:StoreState) => state.pomodoro);
+  console.log(totalCycles, totalOfPomodoros, totalWorkingTime);
+  const dispatch = useDispatch();
+
   const [mainTime, setMainTime] = useState(pomodoroTime);
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
@@ -94,13 +98,27 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   // }, [fullWorkingTime, resting, timeCounting, working]);
 
   const stopWorkingAndRestart = useCallback(() => {
-    if (!stopped) setStopped(stopped);
+    setStopped(true);
 
     setTimeCounting(false);
     setWorking(false);
     setResting(false);
     setMainTime(pomodoroTime);
-  }, [stopped, pomodoroTime]);
+  }, [pomodoroTime]);
+
+  const handleSaveOnClick = useCallback(() => {
+    dispatch(savePomodoroSummary({
+      totalCycles: totalCycles + completedCycles,
+      totalOfPomodoros: totalOfPomodoros + numberOfPomodoros,
+      totalWorkingTime: totalWorkingTime + fullWorkingTime,
+    }));
+  }, [completedCycles,
+    dispatch,
+    fullWorkingTime,
+    numberOfPomodoros,
+    totalCycles,
+    totalOfPomodoros,
+    totalWorkingTime]);
 
   useEffect(() => {
     if (mainTime > 0) return;
@@ -187,6 +205,7 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
               <Save />
             }
             disabled={!stopped}
+            onClick={handleSaveOnClick}
           >
             Save
           </Button>
