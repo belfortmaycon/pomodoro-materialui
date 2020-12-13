@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { StoreState } from 'store/createStore';
 
+import { StoreState } from '.';
 import pomodoro from './pomodoro/reducer';
 /**
  * When the application has more reducers,

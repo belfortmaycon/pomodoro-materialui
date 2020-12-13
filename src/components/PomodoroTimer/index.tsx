@@ -7,10 +7,10 @@ import {
 import {
   Pause, PlayArrow, Save, Stop,
 } from '@material-ui/icons';
-import { savePomodoroSummary } from 'store/modules/pomodoro/actions';
 
 import { useInterval } from '../../hooks/use-interval';
-import { StoreState } from '../../store/createStore';
+import { StoreState } from '../../store/modules';
+import { savePomodoroSummary } from '../../store/modules/pomodoro/actions';
 import { secondsToTime } from '../../utils/seconds-to-time';
 import FlexContainer from '../FlexContainer';
 import { Timer } from '../Timer';
@@ -27,7 +27,7 @@ export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
     totalOfPomodoros,
     totalWorkingTime,
   } = useSelector((state:StoreState) => state.pomodoro);
-  console.log(totalCycles, totalOfPomodoros, totalWorkingTime);
+
   const dispatch = useDispatch();
 
   const [mainTime, setMainTime] = useState(pomodoroTime);
