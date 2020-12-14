@@ -1,14 +1,16 @@
 import React from 'react';
 
 import {
-  AppBar, Grid, IconButton, Toolbar, Typography,
+  AppBar, Grid, Toolbar, Typography,
 } from '@material-ui/core';
-import { AccessAlarm, Settings } from '@material-ui/icons';
+import { AccessAlarm } from '@material-ui/icons';
 
+import MenuItems from './MenuItens';
 import { HeaderStyle } from './styles';
 
 const Header: React.FC = () => {
   const classes = HeaderStyle();
+
   return (
     <AppBar position="relative">
       <Toolbar variant="dense">
@@ -20,9 +22,7 @@ const Header: React.FC = () => {
             <Typography variant="h6">Pomodoro App</Typography>
           </Grid>
           <Grid item>
-            <IconButton edge="end">
-              <Settings />
-            </IconButton>
+            <MenuItems />
           </Grid>
         </Grid>
       </Toolbar>
