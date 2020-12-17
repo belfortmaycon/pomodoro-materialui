@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Button,
@@ -8,6 +9,8 @@ import {
 import { Save } from '@material-ui/icons';
 import FlexContainer from 'components/FlexContainer';
 import { useFormik } from 'formik';
+import { StoreState } from 'store/modules';
+import { saveConfiguration } from 'store/modules/config/actions';
 import * as yup from 'yup';
 
 import { ConfigurationStyle } from './styles';
@@ -37,17 +40,30 @@ const validationSchema = yup.object({
 
 const Configuration: React.FC = () => {
   const classes = ConfigurationStyle();
+  const {
+    pomodoroTime,
+    shortRestTime,
+    longRestTime,
+    cycles,
+  } = useSelector((state:StoreState) => state.configuration);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      pomodoroTime: 10,
-      shortRestTime: 5,
-      longRestTime: 12,
-      cycles: 4,
+      pomodoroTime,
+      shortRestTime,
+      longRestTime,
+      cycles,
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
+      dispatch(saveConfiguration({
+        pomodoroTime: values.pomodoroTime,
+        shortRestTime: values.shortRestTime,
+        longRestTime: values.longRestTime,
+        cycles: values.cycles,
+      }));
     },
   });
 
