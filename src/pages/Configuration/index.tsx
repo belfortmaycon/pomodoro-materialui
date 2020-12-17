@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Button,
+  Fade,
   Paper,
+  Snackbar,
   TextField,
 } from '@material-ui/core';
 import { Save } from '@material-ui/icons';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import FlexContainer from 'components/FlexContainer';
 import { useFormik } from 'formik';
+import { StoreState } from 'store/modules';
+import { saveConfiguration } from 'store/modules/config/actions';
 import * as yup from 'yup';
 
 import { ConfigurationStyle } from './styles';
@@ -35,21 +41,49 @@ const validationSchema = yup.object({
     .required('Quantos Ciclos completados para ter um Descanso Longo?'),
 });
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const Configuration: React.FC = () => {
+  const {
+    pomodoroTime,
+    shortRestTime,
+    longRestTime,
+    cycles,
+  } = useSelector((state:StoreState) => state.configuration);
+  const dispatch = useDispatch();
+
+  const [notificationAlert, setNofiticationAlert] = useState(false);
+
   const classes = ConfigurationStyle();
 
   const formik = useFormik({
     initialValues: {
-      pomodoroTime: 10,
-      shortRestTime: 5,
-      longRestTime: 12,
-      cycles: 4,
+      pomodoroTime,
+      shortRestTime,
+      longRestTime,
+      cycles,
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(saveConfiguration({
+        pomodoroTime: values.pomodoroTime,
+        shortRestTime: values.shortRestTime,
+        longRestTime: values.longRestTime,
+        cycles: values.cycles,
+      }));
+      setNofiticationAlert(true);
     },
   });
+
+  const handleNotificationClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setNofiticationAlert(false);
+  };
 
   return (
     <FlexContainer padding={5}>
@@ -123,6 +157,17 @@ const Configuration: React.FC = () => {
           </Button>
         </form>
       </Paper>
+      <Snackbar
+        open={notificationAlert}
+        autoHideDuration={6000}
+        onClose={handleNotificationClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        TransitionComponent={Fade}
+      >
+        <Alert onClose={handleNotificationClose} severity="success">
+          Dados salvos com Sucesso!
+        </Alert>
+      </Snackbar>
     </FlexContainer>
   );
 };

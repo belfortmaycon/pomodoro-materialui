@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { StoreState } from '.';
+import configuration from './config/reducer';
 import pomodoro from './pomodoro/reducer';
 /**
  * When the application has more reducers,
@@ -10,4 +11,5 @@ import pomodoro from './pomodoro/reducer';
 export default combineReducers<StoreState>({
   // Passing only pomodoro is the same of pomodoro: pomodoro
   pomodoro,
+  configuration,
 });
