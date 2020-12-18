@@ -1,3 +1,5 @@
+import { createReducer } from 'typesafe-actions';
+
 import { ConfigurationAction, IConfigurationState } from './types';
 
 const INITIAL_STATE:IConfigurationState = {
@@ -25,12 +27,8 @@ export default function configuration(
   }
 }
 
-// export default createReducer<IConfigurationState, ConfigurationAction>(INITIAL_STATE, {
-//   SAVE_CONFIGURATION: (state, action) => ({
-//     ...state,
-//     pomodoroTime: action.payload.pomodoroTime,
-//     shortRestTime: action.payload.shortRestTime,
-//     longRestTime: action.payload.longRestTime,
-//     cycles: action.payload.cycles,
-//   }),
-// });
+// export default createReducer<IConfigurationState, ConfigurationAction>(
+//   INITIAL_STATE, {
+//     SAVE_CONFIGURATION: (state, action) => ({ ...state, action.payload }),
+//   },
+// );

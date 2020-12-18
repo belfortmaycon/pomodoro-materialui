@@ -1,5 +1,4 @@
-import { AnyAction } from 'redux';
-import { createActions, createReducer, DefaultActionCreators } from 'reduxsauce';
+import { createActions, DefaultActionCreators } from 'reduxsauce';
 
 export interface IPomodoroState {
   readonly totalCycles: number,
@@ -7,8 +6,12 @@ export interface IPomodoroState {
   readonly totalWorkingTime: number,
 }
 
-type ActionTypes = {
-  SAVE_POMODORO_SUMMARY: '@pomodoro/SAVE_POMODORO_SUMMARY'
+export const enum ActionTypes {
+  SAVE_POMODORO_SUMMARY = 'SAVE_POMODORO_SUMMARY'
+}
+
+interface C extends DefaultActionCreators {
+  savePomodoroSummary: () => { type: ActionTypes.SAVE_POMODORO_SUMMARY};
 }
 
 /**
@@ -18,10 +21,12 @@ export const { Types, Creators } = createActions<ActionTypes>({
   savePomodoroSummary: ['totalCycles', 'totalWorkingTime', 'totalOfPomodoros'],
 }, { prefix: '@pomodoro' });
 
+Creators.savePomodoroSummary();
+
 /**
  * Handlers
  */
-const INITIAL_STATE:IPomodoroState = {
+const INITIAL_STATE = {
   totalCycles: 0,
   totalOfPomodoros: 0,
   totalWorkingTime: 0,
