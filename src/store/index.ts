@@ -1,8 +1,22 @@
-import { createStore } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+// OLD WAY Redux CORE
+// import { createStore } from 'redux';
+// import { persistStore, persistReducer } from 'redux-persist';
+// NEW WAY Redux Toolkit
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import rootReducer from './modules/rootReducers';
+// import rootReducer from './modules/rootReducers';
+import rootReducer from './ducks';
 
 const persistConfig = {
   key: 'root',
@@ -27,7 +41,21 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
  * // Export sagaMiddleware
  * export { store, persistor sagaMiddleware};
  */
-const store = createStore(persistedReducer);
+
+// OLD WAY with core Redux
+// const store = createStore(persistedReducer);
+
+// New WAY with Redux Toolkit
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
+});
 const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export { store, persistor };

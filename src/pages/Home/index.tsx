@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import PomodoroTimer from 'components/PomodoroTimer';
-import { StoreState } from 'store/modules';
-import { minutesToSecond } from 'utils/minutes-to-second';
+import PomodoroTimer from '~/components/PomodoroTimer';
+import { RootState } from '~/store';
+import { minutesToSecond } from '~/utils/minutes-to-second';
 
 const Home: React.FC = () => {
   const {
@@ -11,7 +11,7 @@ const Home: React.FC = () => {
     shortRestTime,
     longRestTime,
     cycles,
-  } = useSelector((store: StoreState) => store.configuration);
+  } = useSelector((store: RootState) => store.configuration);
   return (
     <>
       <PomodoroTimer

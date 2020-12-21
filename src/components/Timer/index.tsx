@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Typography } from '@material-ui/core';
 
-import { secondsToMinutes } from '../../utils/seconds-to-minutes';
+import { secondsToMinutes } from '~/utils/seconds-to-minutes';
 
 // import { Container } from './styles';
 

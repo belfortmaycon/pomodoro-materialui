@@ -3,15 +3,15 @@ import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 
 import { ThemeProvider } from '@material-ui/core';
-import Header from 'components/Header';
-import Configuration from 'pages/Configuration';
-import Home from 'pages/Home';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import FlexContainer from './components/FlexContainer';
-import { persistor, store } from './store';
-import GlobalStyles from './styles/GlobalStyles';
-import { lightTheme } from './styles/themes/lightTheme';
+import FlexContainer from '~/components/FlexContainer';
+import Header from '~/components/Header';
+import Configuration from '~/pages/Configuration';
+import Home from '~/pages/Home';
+import { persistor, store } from '~/store';
+import GlobalStyles from '~/styles/GlobalStyles';
+import { lightTheme } from '~/styles/themes/lightTheme';
 
 const App: React.FC = () => (
   <Provider store={store}>
