@@ -1,4 +1,3 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 // OLD WAY Redux CORE
 // import { createStore } from 'redux';
 // import { persistStore, persistReducer } from 'redux-persist';
@@ -15,12 +14,15 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+
 // import rootReducer from './modules/rootReducers';
-import rootReducer from './ducks';
+import rootReducer from 'src/store/ducks';
 
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['todos'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
