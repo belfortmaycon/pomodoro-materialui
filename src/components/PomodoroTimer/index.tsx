@@ -8,12 +8,12 @@ import {
   Pause, PlayArrow, Save, Stop,
 } from '@material-ui/icons';
 
-import FlexContainer from '~/components/FlexContainer';
-import { Timer } from '~/components/Timer';
-import { useInterval } from '~/hooks/use-interval';
-import { RootState } from '~/store';
-import { savePomodoroSummary } from '~/store/ducks/pomodoro';
-import { secondsToTime } from '~/utils/seconds-to-time';
+import FlexContainer from 'src/components/FlexContainer';
+import { Timer } from 'src/components/Timer';
+import { useInterval } from 'src/hooks/use-interval';
+import { RootState } from 'src/store';
+import { savePomodoroSummary } from 'src/store/ducks/pomodoro';
+import { secondsToTime } from 'src/utils/seconds-to-time';
 
 import { IPomodoroTimerProps, IPomodoroTimerStyles } from './interfaces';
 import { PomodoroTimerStyle } from './styles';

@@ -13,9 +13,9 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import FlexContainer from '~/components/FlexContainer';
-import { RootState } from '~/store';
-import { saveConfiguration } from '~/store/ducks/configuration';
+import FlexContainer from 'src/components/FlexContainer';
+import { RootState } from 'src/store';
+import { saveConfiguration } from 'src/store/ducks/configuration';
 
 import { ConfigurationStyle } from './styles';
 

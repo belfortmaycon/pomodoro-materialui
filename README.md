@@ -112,7 +112,7 @@ newlinesBetween: 'always',  # sempre saltar uma linha para cada grupo
     '/^react/',     # sempre importa os modulos do react primeiro
     'module',       # importa demais modulos utilizados
     '/^@shared/',   # importa libs que começam com @
-    '/^~/',         # importa os arquivos dentro da pasta src (ver #babel-import)
+    '/^./',         # importa os arquivos dentro da pasta src (ver #babel-import)
 
     # ordem de importação dos arquivos locais src
     # 1 - import dos arquivos de pasta pai

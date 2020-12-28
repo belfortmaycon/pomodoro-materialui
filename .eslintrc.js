@@ -64,9 +64,10 @@ module.exports = {
         newlinesBetween: 'always',
         groups: [
           '/^react/',
+          '/^redux/',
           'module',
           '/^@shared/',
-          '/^~/',
+          '/^src/',
           ['parent', 'sibling', 'index'],
         ],
         alphabetize: { order: 'asc', ignoreCase: true },
@@ -76,6 +77,15 @@ module.exports = {
       'error', // error
       {
         custom: 'ignore',
+      },
+    ],
+    // recomended config:
+    // https://github.com/reduxjs/redux/issues/3759
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state'],
       },
     ],
   },
