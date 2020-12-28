@@ -8,14 +8,15 @@ import {
   Pause, PlayArrow, Save, Stop,
 } from '@material-ui/icons';
 
+import { IPomodoroTimerProps, IPomodoroTimerStyles } from './interfaces';
+import { PomodoroTimerStyle } from './styles';
+
 import { useInterval } from '../../hooks/use-interval';
 import { StoreState } from '../../store/modules';
 import { savePomodoroSummary } from '../../store/modules/pomodoro/actions';
 import { secondsToTime } from '../../utils/seconds-to-time';
 import FlexContainer from '../FlexContainer';
 import { Timer } from '../Timer';
-import { IPomodoroTimerProps, IPomodoroTimerStyles } from './interfaces';
-import { PomodoroTimerStyle } from './styles';
 
 export default function PomodoroTimer(props: IPomodoroTimerProps): JSX.Element {
   const {
