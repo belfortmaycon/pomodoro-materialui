@@ -1,20 +1,39 @@
-import React, { useEffect } from 'react';
+import React, {
+  useEffect, useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 
-import PomodoroTimer from 'src/components/PomodoroTimer';
+import {
+  CheckCircleIcon, ColDef, DataGrid, RowsProp, ValueFormatterParams,
+} from '@material-ui/data-grid';
+import { FiberManualRecord } from '@material-ui/icons';
+
 import { useAppDispatch } from 'src/hooks/useAppDispatch';
 import { RootState } from 'src/store';
 import { fetchAllTodos } from 'src/store/ducks/todos';
-import { minutesToSecond } from 'src/utils/minutes-to-second';
 
+function isCompleted(value: boolean) {
+  return (value) ? <CheckCircleIcon /> : <FiberManualRecord />;
+};
+
+const cols: ColDef[] = [
+  { field: 'id', headerName: 'ID', flex: 0.5 },
+  { field: 'title', headerName: 'Título', width: 800 },
+  {
+    field: 'completed',
+    headerName: 'Concluído?',
+    width: 150,
+    renderCell: (params: ValueFormatterParams) => (
+      <strong>
+        {isCompleted(params.value as boolean)}
+      </strong>
+    ),
+  },
+];
 const Home: React.FC = () => {
-  const {
-    pomodoroTime,
-    shortRestTime,
-    longRestTime,
-    cycles,
-  } = useSelector((store: RootState) => store.configuration);
-
+  const [dataRows, setDataRows] = useState<RowsProp>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { status } = useSelector((state: RootState) => state.todos);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -22,22 +41,24 @@ const Home: React.FC = () => {
       const todosReturn = await dispatch(fetchAllTodos());
 
       if (fetchAllTodos.fulfilled.match(todosReturn)) {
-        // const todos = todosReturn.payload;
-        // todos[1].id;
+        const todos = todosReturn.payload;
+        setDataRows(todos);
       }
     }
+    setLoading(true);
     fetchData();
+
+    setLoading(false);
   }, [dispatch]);
 
   return (
-    <>
-      <PomodoroTimer
-        pomodoroTime={minutesToSecond(pomodoroTime)}
-        shortRestTime={minutesToSecond(shortRestTime)}
-        longRestTime={minutesToSecond(longRestTime)}
-        cycles={cycles}
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={dataRows}
+        columns={cols}
+        loading={loading}
       />
-    </>
+    </div>
   );
 };
 
